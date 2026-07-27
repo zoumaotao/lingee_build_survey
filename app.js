@@ -296,7 +296,7 @@ function render() {
                 <h1>Lingee-Build<br>生态伙伴 AI 需求调研</h1>
                 <p>感谢参与！本次调研约 10 分钟。<br>
                 我们正在研究金蝶生态伙伴在 AI 时代的真实工作需求，<br>
-                帮助我们把 Lingee-Build 产品做得更贴合你们的业务场景。<br><br>
+                帮助我们把 Lingee-Build 产品做得更贴合业务场景。<br><br>
                 所有回答匿名处理，仅用于产品设计参考。</p>
                 <button class="btn-start" onclick="goNext()">开始填写 →</button>
             </div>
