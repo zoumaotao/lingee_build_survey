@@ -342,7 +342,13 @@ function render() {
         html += `<div class="user-badge">👤 ${userName}${userCompany}</div>`;
     }
     html += `<div class="q-title">${q.title}</div>`;
-    if (q.hint) html += `<div class="q-hint">${q.hint}</div>`;
+    // 自动生成题型提示
+    let typeHint = '';
+    if (q.type === 'single') typeHint = '单选';
+    else if (q.type === 'multi' && q.max) typeHint = `多选，最多 ${q.max} 项`;
+    else if (q.type === 'multi') typeHint = '多选';
+    if (typeHint) html += `<div class="q-hint">${typeHint}</div>`;
+    if (q.hint && !q.hint.includes('最多')) html += `<div class="q-hint">${q.hint}</div>`;
 
     if (q.type === 'text') {
         html += `<div class="text-inputs">`;
