@@ -56,11 +56,8 @@
         .survey-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 60px 20px 100px;
+            padding: 60px 20px 120px;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         /* 题目卡片 */
@@ -194,12 +191,21 @@
             border-color: #667eea;
         }
 
-        /* 操作按钮 */
+        /* 操作按钮 - 固定底部 */
         .actions {
-            margin-top: 24px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             display: flex;
             gap: 12px;
             align-items: center;
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid #eee;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 50;
         }
         .btn-next {
             flex: 1;
@@ -241,7 +247,7 @@
         /* 欢迎页 & 结束页 */
         .welcome-card, .end-card {
             text-align: center;
-            padding: 40px 20px;
+            padding: 80px 20px 40px;
         }
         .welcome-card h1 {
             font-size: 24px;
