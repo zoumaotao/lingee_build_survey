@@ -485,8 +485,25 @@ function bindOptionEvents(q) {
 }
 
 function goNext() {
-    currentIndex++;
+    // 校验当前题目是否已填（个人信息题除外）
     const visible = getVisibleQuestions();
+    if (currentIndex >= 0 && currentIndex < visible.length) {
+        const q = visible[currentIndex];
+        if (q.type === 'single') {
+            if (!answers[q.id]) {
+                showError('请先选择一个选项');
+                return;
+            }
+        } else if (q.type === 'multi') {
+            if (!answers[q.id] || answers[q.id].length === 0) {
+                showError('请至少选择一个选项');
+                return;
+            }
+        }
+        // text 类型（个人信息）不强制
+    }
+
+    currentIndex++;
     // 不超过题目总数（等于 total 时 render 会触发提交）
     if (currentIndex > visible.length) currentIndex = visible.length;
     render();
@@ -532,11 +549,12 @@ function generateMarkdown() {
 
     visible.forEach(q => {
         const ans = answers[q.id];
-        if (!ans || (Array.isArray(ans) && ans.length === 0)) return;
 
         let display = '';
-        if (q.type === 'text') {
-            display = Object.entries(ans).map(([k, v]) => v ? `${k}: ${v}` : '').filter(Boolean).join(' / ');
+        if (!ans || (Array.isArray(ans) && ans.length === 0)) {
+            display = '_未作答_';
+        } else if (q.type === 'text') {
+            display = Object.entries(ans).map(([k, v]) => v ? `${k}: ${v}` : '').filter(Boolean).join(' / ') || '_未填写_';
         } else if (Array.isArray(ans)) {
             display = ans.map(a => a === '__other__' ? `其他（${answers[q.id + '_other'] || ''}）` : a).join('、');
         } else {
