@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingee-Build 生态伙伴 AI 需求调研问卷</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+        .form-body {
+            padding: 30px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin: 30px 0 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        .question {
+            margin: 24px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .question-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        .question-hint {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .option-item:hover {
+            background: #eef0ff;
+        }
+        .option-item input[type="radio"],
+        .option-item input[type="checkbox"] {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .option-item label {
+            font-size: 14px;
+            color: #444;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+        .other-input {
+            margin-top: 8px;
+            padding-left: 28px;
+        }
+        .other-input input {
+            width: 100%;
+            max-width: 300px;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .other-input input:focus {
+            border-color: #667eea;
+        }
+        .text-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .text-input:focus {
+            border-color: #667eea;
+        }
+        .conditional {
+            display: none;
+        }
+        .conditional.show {
+            display: block;
+        }
+        .submit-section {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #eee;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 50px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .success-msg {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+        }
+        .success-msg h2 {
+            color: #4caf50;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .success-msg p {
+            color: #666;
+            font-size: 15px;
+        }
+        .error-msg {
+            color: #e53935;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 20px; }
+            .form-body { padding: 20px; }
+            .question { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lingee-Build 生态伙伴 AI 需求调研问卷</h1>
+            <p>感谢参与！本次调研约 10 分钟。<br>
+            我们正在研究金蝶生态伙伴（渠道 / 交付 / ISV / 服务商）在 AI 时代的真实工作需求，<br>
+            帮助我们把 Lingee-Build 产品做得更贴合你们的业务场景。<br>
+            所有回答匿名处理，仅用于产品设计参考。</p>
+        </div>
+
+        <form id="surveyForm">
+            <div class="form-body">
+                <!-- 第一部分 -->
+                <div class="section-title">第一部分：你是谁</div>
+
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-label">Q1. 你在公司中的角色是？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q1" id="q1_1" value="技术负责人 / 研发总监"><label for="q1_1">技术负责人 / 研发总监</label></div>
+                        <div class="option-item"><input type="radio" name="q1" id="q1_2" value="项目经理 / 交付负责人"><label for="q1_2">项目经理 / 交付负责人</label></div>
+                        <div class="option-item"><input type="radio" name="q1" id="q1_3" value="开发工程师"><label for="q1_3">开发工程师</label></div>
+                        <div class="option-item"><input type="radio" name="q1" id="q1_4" value="销售 / 商务 / BD"><label for="q1_4">销售 / 商务 / BD</label></div>
+                        <div class="option-item"><input type="radio" name="q1" id="q1_5" value="公司创始人 / 合伙人"><label for="q1_5">公司创始人 / 合伙人</label></div>
+                        <div class="option-item"><input type="radio" name="q1" id="q1_6" value="其他"><label for="q1_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q1_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="question">
+                    <div class="question-label">Q2. 你们公司目前和金蝶的合作模式是？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q2" id="q2_1" value="渠道合作：帮金蝶销售产品、获取客户"><label for="q2_1">渠道合作：帮金蝶销售产品、获取客户</label></div>
+                        <div class="option-item"><input type="checkbox" name="q2" id="q2_2" value="交付合作：帮金蝶客户做实施、配置、培训"><label for="q2_2">交付合作：帮金蝶客户做实施、配置、培训</label></div>
+                        <div class="option-item"><input type="checkbox" name="q2" id="q2_3" value="ISV合作：自研垂直应用或行业解决方案"><label for="q2_3">ISV合作：自研垂直应用或行业解决方案，发布到金蝶生态</label></div>
+                        <div class="option-item"><input type="checkbox" name="q2" id="q2_4" value="刚开始接触，还没有正式合作"><label for="q2_4">刚开始接触，还没有正式合作</label></div>
+                        <div class="option-item"><input type="checkbox" name="q2" id="q2_5" value="其他"><label for="q2_5">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q2_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="question">
+                    <div class="question-label">Q3. 如果有一个平台能赋予你们 AI Building 能力，你们最想用它做什么？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q3" id="q3_1" value="从「只卖产品」变成「能帮客户快速搭方案、做演示」"><label for="q3_1">从「只卖产品」变成「能帮客户快速搭方案、做演示」（渠道→交付）</label></div>
+                        <div class="option-item"><input type="radio" name="q3" id="q3_2" value="从「做项目交付」变成「把交付经验产品化，可复用可售卖」"><label for="q3_2">从「做项目交付」变成「把交付经验产品化，可复用可售卖」（交付→产品）</label></div>
+                        <div class="option-item"><input type="radio" name="q3" id="q3_3" value="从「卖一次性 License」变成「持续运营、持续收费」"><label for="q3_3">从「卖一次性 License」变成「持续运营、持续收费」（产品→SaaS）</label></div>
+                        <div class="option-item"><input type="radio" name="q3" id="q3_4" value="以上都想要，看产品能力再决定"><label for="q3_4">以上都想要，看产品能力再决定</label></div>
+                        <div class="option-item"><input type="radio" name="q3" id="q3_5" value="暂时没有跃迁需求"><label for="q3_5">我们目前的模式够用，暂时没有跃迁需求</label></div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="question">
+                    <div class="question-label">Q4. 你们公司主要为哪类客户提供服务？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q4" id="q4_1" value="金蝶苍穹客户（大型企业）"><label for="q4_1">金蝶苍穹客户（大型企业）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q4" id="q4_2" value="金蝶星空客户（中型企业）"><label for="q4_2">金蝶星空客户（中型企业）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q4" id="q4_3" value="金蝶云·星辰客户（小微企业）"><label for="q4_3">金蝶云·星辰客户（小微企业）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q4" id="q4_4" value="非金蝶生态客户"><label for="q4_4">非金蝶生态客户</label></div>
+                        <div class="option-item"><input type="checkbox" name="q4" id="q4_5" value="其他"><label for="q4_5">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q4_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="question">
+                    <div class="question-label">Q5. 你们公司的规模大概是？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q5" id="q5_1" value="20 人以下"><label for="q5_1">20 人以下</label></div>
+                        <div class="option-item"><input type="radio" name="q5" id="q5_2" value="20-100 人"><label for="q5_2">20-100 人</label></div>
+                        <div class="option-item"><input type="radio" name="q5" id="q5_3" value="100-500 人"><label for="q5_3">100-500 人</label></div>
+                        <div class="option-item"><input type="radio" name="q5" id="q5_4" value="500 人以上"><label for="q5_4">500 人以上</label></div>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="question">
+                    <div class="question-label">Q6. 你们主要服务哪些行业的客户？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_1" value="制造业"><label for="q6_1">制造业（装备制造 / 流程制造 / 化工医药等）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_2" value="现代服务业"><label for="q6_2">现代服务业（科学研究 / 软件信息 / 租赁商务等）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_3" value="建筑与房地产"><label for="q6_3">建筑与房地产</label></div>
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_4" value="金融与投资"><label for="q6_4">金融与投资</label></div>
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_5" value="交通与物流"><label for="q6_5">交通与物流</label></div>
+                        <div class="option-item"><input type="checkbox" name="q6" id="q6_6" value="其他"><label for="q6_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q6_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="question">
+                    <div class="question-label">Q7. 你们的交付工作主要涉及客户的哪些业务领域？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_1" value="财务"><label for="q7_1">财务（账务 / 报表 / 预算 / 资金）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_2" value="供应链"><label for="q7_2">供应链（采购 / 库存 / 物流 / 仓储）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_3" value="生产制造"><label for="q7_3">生产制造（排产 / 质检 / 工艺 / MES）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_4" value="销售与 CRM"><label for="q7_4">销售与 CRM（客户管理 / 报价 / 订单）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_5" value="人力资源"><label for="q7_5">人力资源（招聘 / 薪酬 / 考勤）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_6" value="项目管理"><label for="q7_6">项目管理（投标 / 合同 / 进度 / 成本）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_7" value="研发与 PLM"><label for="q7_7">研发与 PLM（产品研发 / BOM / 工艺路线）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_8" value="数据分析与 BI"><label for="q7_8">数据分析与 BI（报表 / 看板 / 决策支持）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_9" value="平台集成与接口开发"><label for="q7_9">平台集成与接口开发（系统对接 / 数据同步 / API）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q7" id="q7_10" value="其他"><label for="q7_10">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q7_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- 第二部分 -->
+                <div class="section-title">第二部分：AI 认知与工具现状</div>
+
+                <!-- Q8 -->
+                <div class="question">
+                    <div class="question-label">Q8. 以下 AI 能力，你用过或了解哪些？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_1" value="AI 对话生成文字、图片、报告"><label for="q8_1">用 AI 对话生成文字、图片、报告（比如 ChatGPT、文心、通义）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_2" value="AI 描述需求生成页面或工具"><label for="q8_2">用 AI 描述需求，生成一个页面或工具，别人打开链接就能直接使用（比如秒哒、Lovable）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_3" value="AI 帮助写代码、补全函数"><label for="q8_3">用 AI 帮助写代码、补全函数，开发者提效（比如 Cursor、通义灵码）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_4" value="AI 覆盖研发全流程"><label for="q8_4">用 AI 覆盖研发全流程，从需求到上线（比如 Claude Code、Devin）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_5" value="配置 AI 数字员工"><label for="q8_5">配置一个 AI「数字员工」，让它持续自动处理某类工作（比如扣子、飞书 Aily）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q8" id="q8_6" value="以上都不太了解"><label for="q8_6">以上都不太了解</label></div>
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="question">
+                    <div class="question-label">Q9. 你们团队目前用哪些 AI 工具？（多选，没用过不选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_1" value="AI IDE（Cursor / Windsurf / Kiro / GitHub Copilot）"><label for="q9_1">AI IDE（Cursor / Windsurf / Kiro / GitHub Copilot）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_2" value="国内 AI 编程工具"><label for="q9_2">国内 AI 编程工具（通义灵码 / Qoder CN / 腾讯 CodeBuddy）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_3" value="AI 终端工具（Claude Code / OpenAI Codex）"><label for="q9_3">AI 终端工具（Claude Code / OpenAI Codex）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_4" value="AI 对话工具"><label for="q9_4">AI 对话工具（ChatGPT / 文心 / 通义 / Kimi）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_5" value="AI Build 工具（秒哒 / Lovable 等）"><label for="q9_5">AI Build 工具（秒哒 / Lovable 等）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_6" value="AI 智能体平台（扣子 / Dify / FastGPT）"><label for="q9_6">AI 智能体平台（扣子 / Dify / FastGPT）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_7" value="低代码工具"><label for="q9_7">低代码工具（钉钉宜搭 / 飞书妙搭 / 金蝶苍穹低代码）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_8" value="金蝶自研 AI 工具"><label for="q9_8">金蝶自研 AI 工具</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_9" value="没有在用任何 AI 工具"><label for="q9_9">没有在用任何 AI 工具</label></div>
+                        <div class="option-item"><input type="checkbox" name="q9" id="q9_10" value="其他"><label for="q9_10">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q9_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="question">
+                    <div class="question-label">Q10. 你现在用的 AI 工具，最让你不满意的是什么？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_1" value="生成内容质量不稳定" data-max="2"><label for="q10_1">生成内容质量不稳定，有时很好有时很差</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_2" value="不理解客户的业务背景" data-max="2"><label for="q10_2">不理解客户的业务背景，给的答案太通用</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_3" value="数据安全问题" data-max="2"><label for="q10_3">数据安全问题，不敢把客户敏感信息输进去</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_4" value="不能导出为独立可部署的产品" data-max="2"><label for="q10_4">生成结果不能导出为独立可部署的产品，没法直接交付给客户</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_5" value="和金蝶系统对接麻烦" data-max="2"><label for="q10_5">和金蝶苍穹 / 星空的系统对接麻烦</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_6" value="用起来比较复杂，学习成本高" data-max="2"><label for="q10_6">用起来比较复杂，团队学习成本高</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_7" value="基本满意，没有明显不足" data-max="2"><label for="q10_7">基本满意，没有明显不足</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_8" value="没有在用 AI 工具" data-max="2"><label for="q10_8">我们没有在用 AI 工具</label></div>
+                        <div class="option-item"><input type="checkbox" name="q10" id="q10_9" value="其他" data-max="2"><label for="q10_9">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q10_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- 第三部分 -->
+                <div class="section-title">第三部分：交付痛点</div>
+
+                <!-- Q11 -->
+                <div class="question">
+                    <div class="question-label">Q11. 你们现在帮客户做交付，最重复、最耗时的工作是什么？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_1" value="理解和梳理客户需求" data-max="2"><label for="q11_1">理解和梳理客户需求，反复沟通对齐</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_2" value="写重复性代码" data-max="2"><label for="q11_2">写重复性代码（类似功能在不同客户项目里重复开发）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_3" value="接口对接和系统集成调试" data-max="2"><label for="q11_3">接口对接和系统集成调试</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_4" value="测试和 Bug 修复" data-max="2"><label for="q11_4">测试和 Bug 修复</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_5" value="给客户做方案展示 / 演示页面" data-max="2"><label for="q11_5">给客户做方案展示 / 演示页面</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_6" value="文档整理和知识沉淀" data-max="2"><label for="q11_6">每次交付后的文档整理和知识沉淀</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_7" value="客户验收和培训" data-max="2"><label for="q11_7">客户验收和培训</label></div>
+                        <div class="option-item"><input type="checkbox" name="q11" id="q11_8" value="其他" data-max="2"><label for="q11_8">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q11_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q12 -->
+                <div class="question">
+                    <div class="question-label">Q12. 如果 AI 今天只能帮你解决交付中的一个问题，你选哪个？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q12" id="q12_1" value="客户需求理解太慢"><label for="q12_1">客户需求理解太慢，反复对齐浪费时间</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_2" value="重复性代码写太多"><label for="q12_2">重复性代码写太多，每个项目都在重复造轮子</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_3" value="接口对接耗时耗力"><label for="q12_3">接口对接和系统集成调试耗时耗力</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_4" value="测试覆盖不够"><label for="q12_4">测试覆盖不够，Bug 到验收才发现</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_5" value="交付完缺少运维手段"><label for="q12_5">交付完缺少运维手段，客户问题响应慢</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_6" value="团队经验没有沉淀"><label for="q12_6">团队经验没有沉淀，新人上手效率低</label></div>
+                        <div class="option-item"><input type="radio" name="q12" id="q12_7" value="其他"><label for="q12_7">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q12_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q13 -->
+                <div class="question">
+                    <div class="question-label">Q13. 你们团队的交付经验和最佳实践，目前存在哪里？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_1" value="在各人脑子里，靠口头传授"><label for="q13_1">在各人脑子里，靠口头传授</label></div>
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_2" value="在文档里"><label for="q13_2">在文档 / Confluence / 飞书文档里</label></div>
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_3" value="在代码模板里"><label for="q13_3">在代码模板 / 脚手架里，只有技术人员能理解</label></div>
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_4" value="几乎没有沉淀"><label for="q13_4">几乎没有沉淀，人员流动后就流失了</label></div>
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_5" value="已在用 Prompt 模板 / 知识库 / RAG"><label for="q13_5">已经在用 Prompt 模板 / 知识库 / RAG 来固化</label></div>
+                        <div class="option-item"><input type="checkbox" name="q13" id="q13_6" value="其他"><label for="q13_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q13_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- 第四部分 -->
+                <div class="section-title">第四部分：场景价值与能力需求</div>
+
+                <!-- Q14 -->
+                <div class="question">
+                    <div class="question-label">Q14. 以下三种 AI 能力，哪些对你们的业务最有价值？（最多选 2 个）</div>
+                    <div class="question-hint">最多选择 2 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q14" id="q14_1" value="做出来" data-max="2"><label for="q14_1"><b>能力一「做出来」</b>：快速做出页面、小工具或数据看板，客户打开链接就能直接用</label></div>
+                        <div class="option-item"><input type="checkbox" name="q14" id="q14_2" value="自动干" data-max="2"><label for="q14_2"><b>能力二「自动干」</b>：配置一个 AI 数字员工，告诉它工作职责，之后它自动持续处理某类工作</label></div>
+                        <div class="option-item"><input type="checkbox" name="q14" id="q14_3" value="封装用" data-max="2"><label for="q14_3"><b>能力三「封装用」</b>：把交付经验或业务流程封装成 AI 能力包，可复用、可对外发布</label></div>
+                    </div>
+                </div>
+
+                <!-- Q15 条件显示 -->
+                <div class="question conditional" id="q15_block">
+                    <div class="question-label">Q15. 你最想做出来的是哪类东西？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项（选了「做出来」时显示）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_1" value="展示页或方案演示页" data-max="2"><label for="q15_1">给客户看的展示页或方案演示页</label></div>
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_2" value="数据看板 / 进度页 / 状态页" data-max="2"><label for="q15_2">给客户用的数据看板 / 进度页 / 状态页</label></div>
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_3" value="有交互功能的小工具" data-max="2"><label for="q15_3">有交互功能的小工具（输入条件、查询结果、执行操作）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_4" value="连接金蝶 ERP 数据的工具" data-max="2"><label for="q15_4">连接金蝶 ERP 数据的工具（读取库存 / 订单 / 财务数据）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_5" value="完整的业务应用" data-max="2"><label for="q15_5">完整的业务应用（有登录、权限、多页面流程）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q15" id="q15_6" value="其他" data-max="2"><label for="q15_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q15_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q16 条件显示 -->
+                <div class="question conditional" id="q16_block">
+                    <div class="question-label">Q16. 你最希望 AI 数字员工帮你做什么？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项（选了「自动干」时显示）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_1" value="自动整理客户需求" data-max="2"><label for="q16_1">自动整理客户需求，生成需求文档初稿</label></div>
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_2" value="自动生成符合金蝶规范的代码" data-max="2"><label for="q16_2">自动生成符合金蝶规范的代码（元数据 / 插件 / 接口）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_3" value="自动回复客户技术咨询" data-max="2"><label for="q16_3">自动回复客户的常见技术咨询</label></div>
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_4" value="自动生成测试用例并执行" data-max="2"><label for="q16_4">自动生成测试用例并执行</label></div>
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_5" value="自动文档整理和知识沉淀" data-max="2"><label for="q16_5">自动进行交付后的文档整理和知识沉淀</label></div>
+                        <div class="option-item"><input type="checkbox" name="q16" id="q16_6" value="其他" data-max="2"><label for="q16_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q16_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q17 条件显示 -->
+                <div class="question conditional" id="q17_block">
+                    <div class="question-label">Q17. 你最希望封装哪类交付能力？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项（选了「封装用」时显示）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_1" value="生成符合金蝶规范的代码" data-max="2"><label for="q17_1">生成符合金蝶规范的代码（元数据 / 插件 / 接口）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_2" value="生成标准化文档" data-max="2"><label for="q17_2">生成标准化文档（需求文档、交付报告、方案模板）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_3" value="连接和操作客户内部系统" data-max="2"><label for="q17_3">连接和操作客户内部系统（在 ERP 里查数据、写入配置）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_4" value="自动诊断和解决方案推荐" data-max="2"><label for="q17_4">处理常见客户问题的自动诊断和解决方案推荐</label></div>
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_5" value="查询和分析业务数据" data-max="2"><label for="q17_5">查询和分析业务数据（本月销售 TOP10、库存异常等）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q17" id="q17_6" value="其他" data-max="2"><label for="q17_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q17_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q18 -->
+                <div class="question">
+                    <div class="question-label">Q18. 你们现在用 Dify / Coze / 扣子这类工具时，最大的门槛是什么？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_1" value="需要懂 API 和技术配置" data-max="2"><label for="q18_1">需要懂 API 和技术配置，团队学习成本高</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_2" value="搭 Agent 配置复杂" data-max="2"><label for="q18_2">搭一个 Agent 配置很复杂，要花很长时间</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_3" value="没有企业级权限管理" data-max="2"><label for="q18_3">没有企业级权限管理，不放心给客户正式使用</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_4" value="和客户现有系统打通麻烦" data-max="2"><label for="q18_4">和客户现有系统（ERP / CRM）打通很麻烦</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_5" value="没有业务标准化的能力包" data-max="2"><label for="q18_5">没有业务标准化的能力包，每次都要从头描述</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_6" value="没用过这类工具" data-max="2"><label for="q18_6">我们没用过这类工具</label></div>
+                        <div class="option-item"><input type="checkbox" name="q18" id="q18_7" value="其他" data-max="2"><label for="q18_7">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q18_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- 第五部分 -->
+                <div class="section-title">第五部分：商业模式与变现</div>
+
+                <!-- Q19 -->
+                <div class="question">
+                    <div class="question-label">Q19. 如果有一个平台，能让你们把交付经验封装成「AI 能力包」发布到市场，你们有兴趣吗？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q19" id="q19_1" value="非常有兴趣"><label for="q19_1">非常有兴趣，这是个新的收入来源</label></div>
+                        <div class="option-item"><input type="radio" name="q19" id="q19_2" value="有兴趣，要看商业模式"><label for="q19_2">有兴趣，但要看商业模式（怎么分成）</label></div>
+                        <div class="option-item"><input type="radio" name="q19" id="q19_3" value="有兴趣，但担心核心经验被抄"><label for="q19_3">有兴趣，但担心被别人抄走我们的核心经验</label></div>
+                        <div class="option-item"><input type="radio" name="q19" id="q19_4" value="兴趣不大"><label for="q19_4">兴趣不大，我们更关注自己的交付效率</label></div>
+                        <div class="option-item"><input type="radio" name="q19" id="q19_5" value="没有兴趣"><label for="q19_5">没有兴趣</label></div>
+                    </div>
+                </div>
+
+                <!-- Q20 -->
+                <div class="question">
+                    <div class="question-label">Q20. 你们愿意接受哪种商业模式？（多选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_1" value="按调用次数收费"><label for="q20_1">按调用次数收费（每次被企业调用时收到分成）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_2" value="卖授权"><label for="q20_2">卖授权（一次性或年度授权费）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_3" value="平台按运行时长收费，收益归伙伴"><label for="q20_3">托管到平台，平台按运行时长向客户收费，收益全部归伙伴</label></div>
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_4" value="平台抽佣模式"><label for="q20_4">平台抽佣模式（客户付费的 X% 归平台，其余归伙伴）</label></div>
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_5" value="免费发布导流"><label for="q20_5">免费发布，用来导流增加我们公司的曝光和客户</label></div>
+                        <div class="option-item"><input type="checkbox" name="q20" id="q20_6" value="其他"><label for="q20_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q20_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q21 -->
+                <div class="question">
+                    <div class="question-label">Q21. 你们现在给客户交付完一个项目后，后续怎么处理？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q21" id="q21_1" value="交付完就结束"><label for="q21_1">交付完就结束了，后续客户自己维护</label></div>
+                        <div class="option-item"><input type="radio" name="q21" id="q21_2" value="签了运维合同"><label for="q21_2">签了运维合同，我们持续提供更新和维护</label></div>
+                        <div class="option-item"><input type="radio" name="q21" id="q21_3" value="按次收费"><label for="q21_3">客户有需求再联系我们，按次收费</label></div>
+                        <div class="option-item"><input type="radio" name="q21" id="q21_4" value="有自己的运维平台"><label for="q21_4">我们有自己的运维平台/工具在支撑</label></div>
+                        <div class="option-item"><input type="radio" name="q21" id="q21_5" value="希望持续运营但缺工具"><label for="q21_5">我们希望持续运营，但缺少工具支撑</label></div>
+                        <div class="option-item"><input type="radio" name="q21" id="q21_6" value="其他"><label for="q21_6">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q21_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- Q22 -->
+                <div class="question">
+                    <div class="question-label">Q22. 如果平台能帮你们托管交付成果，让客户持续使用、平台自动计量收费、收益归你们——你对这种「交付即上架，运营即收入」的模式感兴趣吗？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q22" id="q22_1" value="非常感兴趣"><label for="q22_1">非常感兴趣，这能把一次性项目变成持续收入</label></div>
+                        <div class="option-item"><input type="radio" name="q22" id="q22_2" value="感兴趣，担心数据安全"><label for="q22_2">感兴趣，但担心客户数据安全和合规问题</label></div>
+                        <div class="option-item"><input type="radio" name="q22" id="q22_3" value="感兴趣，需要看 SLA"><label for="q22_3">感兴趣，但需要先看托管的稳定性和 SLA</label></div>
+                        <div class="option-item"><input type="radio" name="q22" id="q22_4" value="兴趣一般"><label for="q22_4">兴趣一般，我们更习惯传统的项目交付模式</label></div>
+                        <div class="option-item"><input type="radio" name="q22" id="q22_5" value="没有兴趣"><label for="q22_5">没有兴趣</label></div>
+                    </div>
+                </div>
+
+                <!-- 第六部分 -->
+                <div class="section-title">第六部分：端到端平台与产品方向验证</div>
+
+                <!-- Q23 -->
+                <div class="question">
+                    <div class="question-label">Q23. 如果有一个平台能覆盖「从 idea 到上线运营」的完整链路，以下哪些环节你们最希望被 AI 接管或大幅提效？（最多选 3 项）</div>
+                    <div class="question-hint">最多选择 3 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_1" value="需求分析" data-max="3"><label for="q23_1"><b>需求分析</b>：AI 自动理解客户需求，生成需求文档 / 技术方案初稿</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_2" value="Coding" data-max="3"><label for="q23_2"><b>Coding</b>：AI 生成符合金蝶规范的代码</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_3" value="测试验证" data-max="3"><label for="q23_3"><b>测试验证</b>：AI 自动生成测试用例、执行测试、输出质量报告</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_4" value="部署托管" data-max="3"><label for="q23_4"><b>部署托管</b>：做好之后一键部署到客户内网或云端</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_5" value="上线运营" data-max="3"><label for="q23_5"><b>上线运营</b>：上线后有使用数据看板、版本迭代管理、异常监控告警</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_6" value="协同交付" data-max="3"><label for="q23_6"><b>协同交付</b>：多人协同开发、客户在线评审和验收</label></div>
+                        <div class="option-item"><input type="checkbox" name="q23" id="q23_7" value="能力复用" data-max="3"><label for="q23_7"><b>能力复用</b>：本次交付的成果自动沉淀为可复用模块</label></div>
+                    </div>
+                </div>
+
+                <!-- Q24 -->
+                <div class="question">
+                    <div class="question-label">Q24. 上面选的环节中，哪一个被解决后对你们提升最大？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q24" id="q24_1" value="需求分析"><label for="q24_1">需求分析</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_2" value="Coding"><label for="q24_2">Coding</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_3" value="测试验证"><label for="q24_3">测试验证</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_4" value="部署托管"><label for="q24_4">部署托管</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_5" value="上线运营"><label for="q24_5">上线运营</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_6" value="协同交付"><label for="q24_6">协同交付</label></div>
+                        <div class="option-item"><input type="radio" name="q24" id="q24_7" value="能力复用"><label for="q24_7">能力复用</label></div>
+                    </div>
+                </div>
+
+                <!-- Q25 -->
+                <div class="question">
+                    <div class="question-label">Q25. 「做出来」→「自动干」→「封装用」这种渐进式路径对你们有吸引力吗？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q25" id="q25_1" value="非常有吸引力"><label for="q25_1">非常有吸引力，这正是我们理想的交付升级路径</label></div>
+                        <div class="option-item"><input type="radio" name="q25" id="q25_2" value="有吸引力，可能只用 1-2 步"><label for="q25_2">有吸引力，但更可能只用其中 1-2 步</label></div>
+                        <div class="option-item"><input type="radio" name="q25" id="q25_3" value="吸引力一般"><label for="q25_3">吸引力一般，更希望三个方向独立使用</label></div>
+                        <div class="option-item"><input type="radio" name="q25" id="q25_4" value="没有吸引力"><label for="q25_4">没有吸引力</label></div>
+                        <div class="option-item"><input type="radio" name="q25" id="q25_5" value="不太理解，需看实际产品"><label for="q25_5">不太理解，需要看到实际产品才能判断</label></div>
+                    </div>
+                </div>
+
+                <!-- Q26 -->
+                <div class="question">
+                    <div class="question-label">Q26. 如果一个 AI 工具能直接读取客户公司 ERP / 业务系统里的数据来帮你们完成交付，你的态度是？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q26" id="q26_1" value="非常期待"><label for="q26_1">非常期待，这能大幅提升我们的交付效率</label></div>
+                        <div class="option-item"><input type="radio" name="q26" id="q26_2" value="有价值，数据必须留在客户环境内"><label for="q26_2">有价值，但前提是数据必须留在客户环境内</label></div>
+                        <div class="option-item"><input type="radio" name="q26" id="q26_3" value="有价值，需通过安全评估"><label for="q26_3">有价值，但必须通过客户 IT 和信息安全评估</label></div>
+                        <div class="option-item"><input type="radio" name="q26" id="q26_4" value="不太放心"><label for="q26_4">不太放心，客户对 AI 读取核心数据比较谨慎</label></div>
+                        <div class="option-item"><input type="radio" name="q26" id="q26_5" value="客户基本不允许"><label for="q26_5">客户基本不允许这样做</label></div>
+                        <div class="option-item"><input type="radio" name="q26" id="q26_6" value="和我们关系不大"><label for="q26_6">和我们的交付方式关系不大</label></div>
+                    </div>
+                </div>
+
+                <!-- Q27 -->
+                <div class="question">
+                    <div class="question-label">Q27. 如果有两款 AI 工具效果差不多：一款通用，一款专门针对金蝶生态深度训练——你怎么选？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q27" id="q27_1" value="选专属版，愿意多付钱"><label for="q27_1">选专属版，更懂金蝶生态和客户业务，愿意多付钱</label></div>
+                        <div class="option-item"><input type="radio" name="q27" id="q27_2" value="选专属版，差价 20% 以内"><label for="q27_2">选专属版，但价格不能差太多（差价在 20% 以内）</label></div>
+                        <div class="option-item"><input type="radio" name="q27" id="q27_3" value="看实际效果"><label for="q27_3">看实际效果，哪个好用选哪个</label></div>
+                        <div class="option-item"><input type="radio" name="q27" id="q27_4" value="选通用版"><label for="q27_4">选通用版，够用就行</label></div>
+                        <div class="option-item"><input type="radio" name="q27" id="q27_5" value="说不准"><label for="q27_5">说不准，要看具体场景</label></div>
+                    </div>
+                </div>
+
+                <!-- Q28 条件显示 -->
+                <div class="question conditional" id="q28_block">
+                    <div class="question-label">Q28. 你愿意多付多少钱？（单选）</div>
+                    <div class="question-hint">选了「专属版」时显示</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q28" id="q28_1" value="多 20% 以内"><label for="q28_1">多 20% 以内</label></div>
+                        <div class="option-item"><input type="radio" name="q28" id="q28_2" value="多 20-50%"><label for="q28_2">多 20-50%</label></div>
+                        <div class="option-item"><input type="radio" name="q28" id="q28_3" value="多 50-100%"><label for="q28_3">多 50-100%</label></div>
+                        <div class="option-item"><input type="radio" name="q28" id="q28_4" value="贵多少都愿意"><label for="q28_4">贵多少都愿意，只要真的好用</label></div>
+                    </div>
+                </div>
+
+                <!-- Q29 -->
+                <div class="question">
+                    <div class="question-label">Q29. 你们在向客户推荐 AI 工具时，客户最常问的顾虑是什么？（最多选 2 项）</div>
+                    <div class="question-hint">最多选择 2 项</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_1" value="数据安全" data-max="2"><label for="q29_1">数据安全，代码和业务数据不能传给外部 AI</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_2" value="生成质量不稳定" data-max="2"><label for="q29_2">生成质量不稳定，不敢直接用于生产环境</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_3" value="和金蝶兼容性" data-max="2"><label for="q29_3">和金蝶苍穹 / 星空的兼容性</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_4" value="价格太高" data-max="2"><label for="q29_4">价格太高，客户预算有限</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_5" value="团队学习成本高" data-max="2"><label for="q29_5">团队学习成本高</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_6" value="没有明显顾虑" data-max="2"><label for="q29_6">没有遇到明显顾虑，客户比较开放</label></div>
+                        <div class="option-item"><input type="checkbox" name="q29" id="q29_7" value="其他" data-max="2"><label for="q29_7">其他</label></div>
+                    </div>
+                    <div class="other-input"><input type="text" id="q29_other" placeholder="请填写..."></div>
+                </div>
+
+                <!-- 第七部分 -->
+                <div class="section-title">第七部分：结尾</div>
+
+                <!-- Q30 -->
+                <div class="question">
+                    <div class="question-label">Q30. 如果 Lingee-Build 明天就能上线一个能力，你最希望先拿到哪个？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q30" id="q30_1" value="30 秒搭 demo 页面"><label for="q30_1">给客户 30 秒搭一个能用的 demo 页面，现场演示直接成交</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_2" value="AI 自动写代码"><label for="q30_2">AI 自动帮我写符合苍穹规范的代码，我只做 review</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_3" value="项目经验变模板"><label for="q30_3">把我做过的项目经验变成可复用模板，新项目直接套用</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_4" value="一键部署"><label for="q30_4">做好的东西一键部署，不用折腾环境配置</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_5" value="交付成果自动上架运营"><label for="q30_5">交付成果自动上架运营，客户持续用、我持续收钱</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_6" value="端到端平台"><label for="q30_6">一个端到端平台，从需求到上线到运营全打通</label></div>
+                        <div class="option-item"><input type="radio" name="q30" id="q30_7" value="都想要"><label for="q30_7">都想要，看哪个先出来就先用哪个</label></div>
+                    </div>
+                </div>
+
+                <!-- Q31 -->
+                <div class="question">
+                    <div class="question-label">Q31. 如果这类工具真的存在，你愿意推荐给你们的客户吗？（单选）</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q31" id="q31_1" value="会，先用再推"><label for="q31_1">会，我们先用，效果好了推给客户</label></div>
+                        <div class="option-item"><input type="radio" name="q31" id="q31_2" value="会，直接推动客户采购"><label for="q31_2">会，直接推动客户采购，我们做实施</label></div>
+                        <div class="option-item"><input type="radio" name="q31" id="q31_3" value="看情况"><label for="q31_3">看情况，取决于价格和效果</label></div>
+                        <div class="option-item"><input type="radio" name="q31" id="q31_4" value="不会，客户决策不在我们"><label for="q31_4">不会，客户决策不在我们这里</label></div>
+                        <div class="option-item"><input type="radio" name="q31" id="q31_5" value="不会，暂时没需求"><label for="q31_5">不会，暂时没有这方面需求</label></div>
+                    </div>
+                </div>
+
+                <!-- Q32 -->
+                <div class="question">
+                    <div class="question-label">Q32. 你愿意参与后续 30 分钟的深度访谈吗？</div>
+                    <div class="option-group">
+                        <div class="option-item"><input type="radio" name="q32" id="q32_1" value="愿意"><label for="q32_1">愿意</label></div>
+                        <div class="option-item"><input type="radio" name="q32" id="q32_2" value="暂时不方便"><label for="q32_2">暂时不方便</label></div>
+                    </div>
+                </div>
+
+                <!-- Q33 -->
+                <div class="question">
+                    <div class="question-label">Q33. 请留下基础信息（选填，可只填一项）</div>
+                    <div class="question-hint">用于样本去重和后续跟进，不对外披露。留下信息的参与者将收到调研报告摘要及内测优先资格。</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                        <input type="text" class="text-input" id="q33_company" placeholder="公司名称（可填「保密」）">
+                        <input type="text" class="text-input" id="q33_name" placeholder="姓名（可填「匿名」）">
+                        <input type="text" class="text-input" id="q33_contact" placeholder="手机 / 微信">
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <div class="error-msg" id="globalError"></div>
+                <button type="submit" class="submit-btn" id="submitBtn">提交问卷</button>
+                <p style="margin-top: 12px; font-size: 12px; color: #999;">提交后数据将保存到 GitHub 仓库</p>
+            </div>
+        </form>
+
+        <div class="success-msg" id="successMsg">
+            <h2>✅ 提交成功！</h2>
+            <p>感谢你的参与！<br>你的每一个回答都在帮助我们把 Lingee-Build 打造成对生态伙伴真正有价值的平台。</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
