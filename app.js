@@ -488,14 +488,13 @@ function render() {
         html += `</div>`;
     }
 
-    // 操作按钮
+    // 操作按钮 - 常驻显示
     html += `<div class="actions">`;
     if (currentIndex > 0) {
         html += `<button type="button" class="btn-prev" onclick="goPrev()">← 上一题</button>`;
     }
-    if (q.type === 'multi' || q.type === 'text') {
-        html += `<button type="button" class="btn-next" id="btnNext" onclick="goNext()">下一题 →</button>`;
-    }
+    const isLast = currentIndex === total - 1;
+    html += `<button type="button" class="btn-next" id="btnNext" onclick="goNext()">${isLast ? '提交问卷 ✓' : '下一题 →'}</button>`;
     html += `</div>`;
     html += `</div>`;
 
@@ -518,11 +517,11 @@ function bindOptionEvents(q) {
                 if (value === '__other__') {
                     document.querySelector('.other-wrap')?.classList.add('show');
                     setTimeout(() => document.querySelector('.other-input')?.focus(), 100);
-                    return; // 不自动跳转
+                } else {
+                    // 更新选中状态
+                    document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
                 }
-                // 单选自动跳转下一题（延迟一点让动画生效）
-                btn.classList.add('selected');
-                setTimeout(() => goNext(), 300);
             } else if (q.type === 'multi') {
                 if (!answers[q.id]) answers[q.id] = [];
                 const idx = answers[q.id].indexOf(value);
