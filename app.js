@@ -42,17 +42,6 @@ const QUESTIONS = [
         hasOther: true
     },
     {
-        id: 'q3', section: '第一部分：你是谁', type: 'single',
-        title: '如果有一个平台能赋予你们 AI Building 能力，你们最想用它做什么？',
-        options: [
-            '从「只卖产品」变成「能帮客户快速搭方案、做演示」',
-            '从「做项目交付」变成「把交付经验产品化，可复用可售卖」',
-            '从「卖一次性 License」变成「持续运营、持续收费」',
-            '以上都想要，看产品能力再决定',
-            '暂时没有跃迁需求'
-        ]
-    },
-    {
         id: 'q4', section: '第一部分：你是谁', type: 'multi',
         title: '你们公司主要为哪类客户提供服务？',
         options: ['金蝶苍穹客户（大型企业）', '金蝶星空客户（中型企业）', '金蝶云·星辰客户（小微企业）', '非金蝶生态客户'],
@@ -76,19 +65,7 @@ const QUESTIONS = [
         hasOther: true
     },
     {
-        id: 'q8', section: '第二部分：AI 认知与工具现状', type: 'multi',
-        title: '以下 AI 能力，你用过或了解哪些？',
-        options: [
-            'AI 对话生成文字、图片、报告（ChatGPT、文心、通义）',
-            'AI 描述需求生成页面或工具（秒哒、Lovable）',
-            'AI 帮助写代码、补全函数（Cursor、通义灵码）',
-            'AI 覆盖研发全流程（Claude Code、Devin）',
-            '配置 AI 数字员工持续自动处理工作（扣子、飞书 Aily）',
-            '以上都不太了解'
-        ]
-    },
-    {
-        id: 'q9', section: '第二部分：AI 认知与工具现状', type: 'multi',
+        id: 'q9', section: '第二部分：AI 工具现状', type: 'multi',
         title: '你们团队目前用哪些 AI 工具？',
         hint: '没用过的不选',
         options: [
@@ -105,7 +82,7 @@ const QUESTIONS = [
         hasOther: true
     },
     {
-        id: 'q10', section: '第二部分：AI 认知与工具现状', type: 'multi', max: 2,
+        id: 'q10', section: '第二部分：AI 工具现状', type: 'multi', max: 2,
         title: '你现在用的 AI 工具，最让你不满意的是什么？',
         hint: '最多选 2 项',
         options: [
@@ -122,27 +99,14 @@ const QUESTIONS = [
     },
     {
         id: 'q11', section: '第三部分：交付痛点', type: 'multi', max: 2,
-        title: '帮客户做交付时，最重复、最耗时的工作是什么？',
+        title: '你们最希望 AI 帮忙解决的交付痛点是什么？',
         hint: '最多选 2 项',
         options: [
-            '理解和梳理客户需求，反复沟通对齐',
-            '写重复性代码（类似功能重复开发）',
-            '接口对接和系统集成调试',
-            '测试和 Bug 修复',
-            '给客户做方案展示 / 演示页面',
-            '交付后的文档整理和知识沉淀',
-            '客户验收和培训'
-        ],
-        hasOther: true
-    },
-    {
-        id: 'q12', section: '第三部分：交付痛点', type: 'single',
-        title: '如果 AI 今天只能帮你解决交付中的一个问题，你选哪个？',
-        options: [
             '客户需求理解太慢，反复对齐浪费时间',
-            '重复性代码写太多，每个项目都在重复造轮子',
+            '重复性代码写太多，每个项目都在造轮子',
             '接口对接和系统集成调试耗时耗力',
             '测试覆盖不够，Bug 到验收才发现',
+            '给客户做方案展示 / 演示页面太费劲',
             '交付完缺少运维手段，客户问题响应慢',
             '团队经验没有沉淀，新人上手效率低'
         ],
@@ -201,17 +165,6 @@ const QUESTIONS = [
         hasOther: true
     },
     {
-        id: 'q19', section: '第五部分：商业模式与变现', type: 'single',
-        title: '如果能把交付经验封装成「AI 能力包」发布到市场，你们有兴趣吗？',
-        options: [
-            '非常有兴趣，这是个新的收入来源',
-            '有兴趣，但要看商业模式（怎么分成）',
-            '有兴趣，但担心核心经验被抄走',
-            '兴趣不大，更关注自己的交付效率',
-            '没有兴趣'
-        ]
-    },
-    {
         id: 'q20', section: '第五部分：商业模式与变现', type: 'multi',
         title: '你们愿意接受哪种商业模式？',
         options: [
@@ -235,9 +188,9 @@ const QUESTIONS = [
         ]
     },
     {
-        id: 'q23', section: '第六部分：产品方向验证', type: 'multi', max: 3,
+        id: 'q23', section: '第六部分：产品方向验证', type: 'multi', max: 2,
         title: '从 idea 到上线运营，哪些环节最希望被 AI 大幅提效？',
-        hint: '最多选 3 项',
+        hint: '最多选 2 项',
         options: [
             '需求分析：AI 理解客户需求，生成文档 / 方案初稿',
             'Coding：AI 生成符合金蝶规范的代码',
@@ -247,11 +200,6 @@ const QUESTIONS = [
             '协同交付：多人协同、客户在线评审验收',
             '能力复用：交付成果自动沉淀为可复用模块'
         ]
-    },
-    {
-        id: 'q24', section: '第六部分：产品方向验证', type: 'single',
-        title: '上面的环节中，哪一个被解决后对你们提升最大？',
-        options: ['需求分析', 'Coding', '测试验证', '部署托管', '上线运营', '协同交付', '能力复用']
     },
     {
         id: 'q25', section: '第六部分：产品方向验证', type: 'single',
