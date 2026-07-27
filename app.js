@@ -408,6 +408,7 @@ function render() {
         document.getElementById('progressFill').style.width = '0%';
         document.getElementById('progressText').textContent = '';
         document.getElementById('progressSection').textContent = '';
+        document.getElementById('actionsBar').style.display = 'none';
         container.innerHTML = `
             <div class="question-card active welcome-card">
                 <h1>Lingee-Build<br>生态伙伴 AI 需求调研</h1>
@@ -426,6 +427,7 @@ function render() {
         document.getElementById('progressFill').style.width = '100%';
         document.getElementById('progressText').textContent = '完成';
         document.getElementById('progressSection').textContent = '🎉';
+        document.getElementById('actionsBar').style.display = 'none';
         container.innerHTML = `
             <div class="question-card active end-card">
                 <h2>✅ 提交中...</h2>
@@ -495,17 +497,19 @@ function render() {
         html += `</div>`;
     }
 
-    // 操作按钮 - 常驻显示
-    html += `<div class="actions">`;
-    if (currentIndex > 0) {
-        html += `<button type="button" class="btn-prev" onclick="goPrev()">← 上一题</button>`;
-    }
-    const isLast = currentIndex === total - 1;
-    html += `<button type="button" class="btn-next" id="btnNext" onclick="goNext()">${isLast ? '提交问卷 ✓' : '下一题 →'}</button>`;
-    html += `</div>`;
+    // 操作按钮 - 固定底部栏，独立于卡片更新
     html += `</div>`;
 
     container.innerHTML = html;
+
+    // 更新底部按钮栏
+    const actionsBar = document.getElementById('actionsBar');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    actionsBar.style.display = 'flex';
+    btnPrev.style.display = currentIndex > 0 ? 'block' : 'none';
+    const isLast = currentIndex === total - 1;
+    btnNext.textContent = isLast ? '提交问卷 ✓' : '下一题 →';
 
     // 绑定事件
     bindOptionEvents(q);
