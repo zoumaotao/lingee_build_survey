@@ -19,6 +19,17 @@ const CONFIG = {
 // ========================================
 const QUESTIONS = [
     {
+        id: 'q33', section: '基本信息', type: 'text',
+        title: '先认识一下你 👋',
+        hint: '用于样本去重和后续跟进，不对外披露。留下信息的参与者将收到调研报告摘要及内测优先资格。',
+        fields: [
+            { key: 'name', placeholder: '姓名（可填「匿名」）' },
+            { key: 'company', placeholder: '公司名称（可填「保密」）' },
+            { key: 'city', placeholder: '公司所在城市（可填「保密」）' },
+            { key: 'contact', placeholder: '手机 / 微信' }
+        ]
+    },
+    {
         id: 'q1', section: '第一部分：你是谁', type: 'single',
         title: '你在公司中的角色是？',
         options: ['技术负责人 / 研发总监', '项目经理 / 交付负责人', '开发工程师', '销售 / 商务 / BD', '公司创始人 / 合伙人'],
@@ -362,17 +373,6 @@ const QUESTIONS = [
         id: 'q32', section: '第七部分：结尾', type: 'single',
         title: '你愿意参与后续 30 分钟的深度访谈吗？',
         options: ['愿意', '暂时不方便']
-    },
-    {
-        id: 'q33', section: '第七部分：结尾', type: 'text',
-        title: '请留下基础信息（选填）',
-        hint: '用于样本去重和后续跟进，不对外披露。留下信息的参与者将收到调研报告摘要及内测优先资格。',
-        fields: [
-            { key: 'company', placeholder: '公司名称（可填「保密」）' },
-            { key: 'city', placeholder: '公司所在城市（可填「保密」）' },
-            { key: 'name', placeholder: '姓名（可填「匿名」）' },
-            { key: 'contact', placeholder: '手机 / 微信' }
-        ]
     }
 ];
 
@@ -450,6 +450,13 @@ function render() {
     document.getElementById('progressSection').textContent = q.section;
 
     let html = `<div class="question-card active">`;
+    // 在题目上方显示用户信息（Q33之后的题）
+    if (q.id !== 'q33' && answers['q33']) {
+        const info = answers['q33'];
+        const userName = info.name || '匿名';
+        const userCompany = info.company ? ` · ${info.company}` : '';
+        html += `<div class="user-badge">👤 ${userName}${userCompany}</div>`;
+    }
     html += `<div class="q-title">${q.title}</div>`;
     if (q.hint) html += `<div class="q-hint">${q.hint}</div>`;
 
