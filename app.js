@@ -497,15 +497,39 @@ function bindOptionEvents(q) {
                 if (!answers[q.id]) answers[q.id] = [];
                 const idx = answers[q.id].indexOf(value);
                 if (idx > -1) {
+                    // 取消选中
                     answers[q.id].splice(idx, 1);
+                    btn.classList.remove('selected-multi');
                 } else {
                     if (q.max && answers[q.id].length >= q.max) return;
                     answers[q.id].push(value);
+                    btn.classList.add('selected-multi');
                 }
-                if (value === '__other__' && answers[q.id].includes('__other__')) {
-                    setTimeout(() => document.querySelector('.other-input')?.focus(), 100);
+                // 更新 max 限制的禁用状态
+                if (q.max) {
+                    const allBtns = document.querySelectorAll('.opt-btn');
+                    allBtns.forEach(b => {
+                        if (!b.classList.contains('selected-multi')) {
+                            if (answers[q.id].length >= q.max) {
+                                b.style.opacity = '0.4';
+                                b.style.pointerEvents = 'none';
+                            } else {
+                                b.style.opacity = '';
+                                b.style.pointerEvents = '';
+                            }
+                        }
+                    });
                 }
-                render(); // 重新渲染以更新状态
+                // 显示"其他"输入框
+                if (value === '__other__') {
+                    const otherWrap = document.querySelector('.other-wrap');
+                    if (answers[q.id].includes('__other__')) {
+                        otherWrap?.classList.add('show');
+                        setTimeout(() => document.querySelector('.other-input')?.focus(), 100);
+                    } else {
+                        otherWrap?.classList.remove('show');
+                    }
+                }
             }
         });
     });
