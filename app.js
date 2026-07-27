@@ -149,18 +149,6 @@ const QUESTIONS = [
         hasOther: true
     },
     {
-        id: 'q13', section: '第三部分：交付痛点', type: 'multi',
-        title: '你们团队的交付经验和最佳实践，目前存在哪里？',
-        options: [
-            '在各人脑子里，靠口头传授',
-            '在文档 / Confluence / 飞书文档里',
-            '在代码模板 / 脚手架里，只有技术人员能理解',
-            '几乎没有沉淀，人员流动后就流失了',
-            '已经在用 Prompt 模板 / 知识库 / RAG 来固化'
-        ],
-        hasOther: true
-    },
-    {
         id: 'q14', section: '第四部分：场景价值与能力需求', type: 'multi', max: 2,
         title: '以下三种 AI 能力，哪些对你们的业务最有价值？',
         hint: '最多选 2 个',
@@ -209,20 +197,6 @@ const QUESTIONS = [
             '连接和操作客户内部系统（ERP 查数据、写配置）',
             '常见客户问题的自动诊断和解决方案推荐',
             '查询和分析业务数据（销售 TOP10、库存异常等）'
-        ],
-        hasOther: true
-    },
-    {
-        id: 'q18', section: '第四部分：场景价值与能力需求', type: 'multi', max: 2,
-        title: '用 Dify / Coze / 扣子这类工具时，最大的门槛是什么？',
-        hint: '最多选 2 项',
-        options: [
-            '需要懂 API 和技术配置，学习成本高',
-            '搭 Agent 配置复杂，耗时长',
-            '没有企业级权限管理，不敢给客户正式用',
-            '和客户现有系统（ERP / CRM）打通麻烦',
-            '没有标准化能力包，每次从头描述',
-            '我们没用过这类工具'
         ],
         hasOther: true
     },
