@@ -636,14 +636,42 @@ function generateMarkdown() {
 }
 
 async function submitToGitHub(markdownContent) {
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}`;
     const token = CONFIG.token;
+    const baseUrl = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents`;
+    const headers = { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' };
 
+    // 生成文件名：时间戳_姓名
+    const now = new Date();
+    const ts = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    const info = answers['q33'] || {};
+    const nameSlug = (info.name || '匿名').replace(/\s+/g, '');
+    const fileName = `${ts}_${nameSlug}.md`;
+    const filePath = `record/${fileName}`;
+
+    // 1. 创建新的单独问卷文件
+    const fileContent = btoa(unescape(encodeURIComponent(markdownContent)));
+    const createRes = await fetch(`${baseUrl}/${filePath}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+            message: `📋 新问卷：${info.name || '匿名'} - ${info.company || '未知公司'}`,
+            content: fileContent,
+            branch: CONFIG.branch
+        })
+    });
+
+    if (!createRes.ok) {
+        const err = await createRes.json();
+        throw new Error(err.message || '创建文件失败');
+    }
+
+    // 2. 更新 record.md 汇总列表
+    const listUrl = `${baseUrl}/record.md`;
     let existingContent = '';
     let sha = '';
 
     try {
-        const getRes = await fetch(url, {
+        const getRes = await fetch(listUrl, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
         if (getRes.ok) {
@@ -653,26 +681,32 @@ async function submitToGitHub(markdownContent) {
         }
     } catch (e) { /* 文件不存在 */ }
 
-    const newContent = existingContent + markdownContent;
+    const timestamp = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+    const company = info.company || '未填写';
+    const city = info.city || '未填写';
+    const newLine = `| ${timestamp} | ${info.name || '匿名'} | ${company} | ${city} | [查看](${filePath}) |\n`;
+
+    // 如果文件为空或刚创建，加表头
+    if (!existingContent || !existingContent.includes('| 时间 |')) {
+        existingContent = `# Lingee-Build 调研问卷回复汇总\n\n| 时间 | 姓名 | 公司 | 城市 | 详情 |\n| --- | --- | --- | --- | --- |\n`;
+    }
+
+    const newContent = existingContent + newLine;
     const encodedContent = btoa(unescape(encodeURIComponent(newContent)));
 
     const body = {
-        message: `📋 新问卷回复 - ${new Date().toLocaleString('zh-CN')}`,
+        message: `📋 更新汇总：${info.name || '匿名'}`,
         content: encodedContent,
         branch: CONFIG.branch
     };
     if (sha) body.sha = sha;
 
-    const putRes = await fetch(url, {
+    await fetch(listUrl, {
         method: 'PUT',
-        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+        headers,
         body: JSON.stringify(body)
     });
-
-    if (!putRes.ok) {
-        const err = await putRes.json();
-        throw new Error(err.message || '网络错误');
-    }
+    // 汇总更新失败不阻塞（主文件已创建成功）
 }
 
 function showError(msg) {
