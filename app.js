@@ -23,9 +23,9 @@ const QUESTIONS = [
         title: '先认识一下你 👋',
         hint: '用于样本去重和后续跟进，不对外披露。留下信息的参与者将收到调研报告摘要及内测优先资格。',
         fields: [
-            { key: 'name', placeholder: '姓名（可填「匿名」）' },
-            { key: 'company', placeholder: '公司名称（可填「保密」）' },
-            { key: 'city', placeholder: '公司所在城市（可填「保密」）' },
+            { key: 'name', placeholder: '姓名' },
+            { key: 'company', placeholder: '公司名称' },
+            { key: 'city', placeholder: '公司所在城市' },
             { key: 'contact', placeholder: '手机 / 微信' }
         ]
     },
@@ -295,7 +295,7 @@ function render() {
             <div class="question-card active welcome-card">
                 <h1>Lingee-Build<br>生态伙伴 AI 需求调研</h1>
                 <p>感谢参与！本次调研约 10 分钟。<br>
-                我们正在研究金蝶生态伙伴在 AI 时代的真实工作需求，<br>
+                为研究金蝶生态伙伴在 AI 时代的真实工作需求，<br>
                 帮助我们把 Lingee-Build 产品做得更贴合业务场景。<br><br>
                 所有回答匿名处理，仅用于产品设计参考。</p>
                 <button class="btn-start" onclick="goNext()">开始填写 →</button>
