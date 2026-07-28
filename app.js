@@ -294,6 +294,11 @@ const QUESTIONS = [
         id: 'q32', section: '第七部分：结尾', type: 'single',
         title: '你愿意参与后续 30 分钟的深度访谈吗？',
         options: ['愿意', '暂时不方便']
+    },
+    {
+        id: 'q_open', section: '第七部分：结尾', type: 'textarea',
+        title: '有任何想法也欢迎直接告诉我们，祝工作顺利！',
+        hint: '选填，不超过 100 字'
     }
 ];
 
@@ -396,6 +401,9 @@ function render() {
             html += `<input type="text" data-field="${f.key}" placeholder="${f.placeholder}" value="${val}">`;
         });
         html += `</div>`;
+    } else if (q.type === 'textarea') {
+        const val = answers[q.id] || '';
+        html += `<div class="text-inputs"><textarea class="text-area" maxlength="100" placeholder="有什么想说的都可以写在这里...">${val}</textarea></div>`;
     } else {
         html += `<div class="options">`;
         const currentAnswer = answers[q.id] || (q.type === 'multi' ? [] : '');
@@ -521,6 +529,14 @@ function bindOptionEvents(q) {
             answers[q.id][e.target.dataset.field] = e.target.value;
         });
     });
+
+    // textarea（开放题）
+    const textarea = document.querySelector('.text-area');
+    if (textarea) {
+        textarea.addEventListener('input', (e) => {
+            answers[q.id] = e.target.value;
+        });
+    }
 }
 
 function goNext() {
@@ -539,7 +555,7 @@ function goNext() {
                 return;
             }
         }
-        // text 类型（个人信息）不强制
+        // text / textarea 类型不强制
     }
 
     currentIndex++;
@@ -594,6 +610,8 @@ function generateMarkdown() {
             display = '_未作答_';
         } else if (q.type === 'text') {
             display = Object.entries(ans).map(([k, v]) => v ? `${k}: ${v}` : '').filter(Boolean).join(' / ') || '_未填写_';
+        } else if (q.type === 'textarea') {
+            display = ans || '_未作答_';
         } else if (Array.isArray(ans)) {
             display = ans.map(a => a === '__other__' ? `其他（${answers[q.id + '_other'] || ''}）` : a).join('、');
         } else {
